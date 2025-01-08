@@ -46,7 +46,7 @@ public class SceneRenderer {
 
             var distanceToWall = calculateDistanceToWall(distanceToNextGridLine, deltaDistanceForOneSquare, mapPosition, stepDirection);
 
-            double perpendicularWallDistance = distanceToWall.mazeWall().isHorizontalWall() ?
+            var perpendicularWallDistance = distanceToWall.mazeWall().isHorizontalWall() ?
                     (distanceToWall.distanceToWall().x() - deltaDistanceForOneSquare.x())
                     : (distanceToWall.distanceToWall().y() - deltaDistanceForOneSquare.y());
 
