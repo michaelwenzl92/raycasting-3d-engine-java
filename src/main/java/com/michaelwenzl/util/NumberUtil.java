@@ -7,4 +7,8 @@ public final class NumberUtil {
     public static int floor(double value) {
         return (int) Math.floor(value);
     }
+
+    public static int round(double value) {
+        return (int) Math.round(value);
+    }
 }
