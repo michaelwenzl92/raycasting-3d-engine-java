@@ -11,9 +11,10 @@ import static com.michaelwenzl.Constants.MAZE;
 import static com.michaelwenzl.Constants.PLAYER_COLOR;
 import static com.michaelwenzl.Constants.WALL_COLORS;
 import static com.michaelwenzl.util.NumberUtil.floor;
+import static com.michaelwenzl.util.NumberUtil.round;
 
 public class MapRenderer {
-    private SdlWrapper sdlWrapper;
+    private final SdlWrapper sdlWrapper;
 
     public MapRenderer(SdlWrapper sdlWrapper) {
         this.sdlWrapper = sdlWrapper;
@@ -57,16 +58,26 @@ public class MapRenderer {
                 PLAYER_COLOR,
                 new Vector<>(playerMapPosition.x() + (blockDimension.x() / 2), playerMapPosition.y() + (blockDimension.y() / 2)),
                 new Vector<>(
-                        (int) Math.round(playerMapPosition.x() + (blockDimension.x() / 2d) + (player.getDirection().x() * blockDimension.x() * 5)),
-                        (int) Math.round(playerMapPosition.y() + (blockDimension.y() / 2d) + (player.getDirection().y() * blockDimension.y() * 5))));
+                        offsetCoordinateInDirection(playerMapPosition.x(), player.getDirection().x(), blockDimension.x()),
+                        offsetCoordinateInDirection(playerMapPosition.y(), player.getDirection().y(), blockDimension.x())));
     }
 
     private void renderCameraPlane(Player player, Vector<Integer> playerMapPosition, Vector<Integer> blockDimension) {
         sdlWrapper.drawLine(
                 new Color(255, 0, 0),
-                new Vector<>((int) Math.round(playerMapPosition.x() + (blockDimension.x() / 2d) - (player.getCameraPlane().x() * blockDimension.x() * 5)),
-                        (int) Math.round(playerMapPosition.y() + (blockDimension.y() / 2d) - (player.getCameraPlane().y() * blockDimension.y() * 5))),
-                new Vector<>((int) Math.round(playerMapPosition.x() + (blockDimension.x() / 2d) + (player.getCameraPlane().x() * blockDimension.x() * 5)),
-                        (int) Math.round(playerMapPosition.y() + (blockDimension.y() / 2d) + (player.getCameraPlane().y() * blockDimension.y() * 5))));
+                new Vector<>(
+                        offsetCoordinateInDirection(playerMapPosition.x(), -player.getCameraPlane().x(), blockDimension.x()),
+                        offsetCoordinateInDirection(playerMapPosition.y(), -player.getCameraPlane().y(), blockDimension.y())),
+                new Vector<>(
+                        offsetCoordinateInDirection(playerMapPosition.x(), player.getCameraPlane().x(), blockDimension.x()),
+                        offsetCoordinateInDirection(playerMapPosition.y(), player.getCameraPlane().y(), blockDimension.y())));
+    }
+
+    private int offsetCoordinateInDirection(int coordinate, double direction, int blockSize) {
+        return round(getCenterOfCoordinate(coordinate, blockSize) + (direction * 50));
+    }
+
+    private double getCenterOfCoordinate(int coordinate, int blockSize) {
+        return coordinate + (blockSize / 2d);
     }
 }

@@ -1,2 +1,3 @@
 # raycasting-3d-engine-java
-A raycasting 3d engine written in Java
+
+A raycasting 3d engine written in Java with SDL.

@@ -20,13 +20,14 @@ public class SceneRenderer {
         this.sdlWrapper = sdlWrapper;
     }
 
+    // TODO: Move to separate class with pure functions and write test
     public void render(Player player) {
         for (int columnToCalculate = 0; columnToCalculate < SCREEN_WIDTH; columnToCalculate++) {
             var cameraX = 2d * columnToCalculate / SCREEN_WIDTH - 1;
 
             var rayDirection = player.getDirection().bimap(
-                    pX -> pX + player.getCameraPlane().x() * cameraX,
-                    pY -> pY + player.getCameraPlane().y() * cameraX);
+                    x -> x + player.getCameraPlane().x() * cameraX,
+                    y -> y + player.getCameraPlane().y() * cameraX);
 
             var mapPosition = player.getPosition().bimap(NumberUtil::floor, NumberUtil::floor);
 
